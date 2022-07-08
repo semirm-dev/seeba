@@ -9,9 +9,10 @@ import (
 )
 
 var (
-	xmlPath   = flag.String("p", "cmd/loader/worldofmusic.xml", "path to xml file")
-	batchSize = flag.Int("b", 5, "Batch size")
-	workers   = flag.Int("w", 5, "Number of data store workers")
+	xmlPath    = flag.String("p", "data/import/worldofmusic.xml", "path to xml file")
+	exportPath = flag.String("e", "data/filtered/worldofmusic.xml", "path to export filtered xml file")
+	batchSize  = flag.Int("b", 5, "Batch size")
+	workers    = flag.Int("w", 5, "Number of data store workers")
 )
 
 func main() {
@@ -20,6 +21,6 @@ func main() {
 	impCtx, impCancel := context.WithCancel(context.Background())
 	defer impCancel()
 
-	ldr := etl.NewLoader(aol.NewImporter(*xmlPath, *batchSize), aol.NewFilter(), exporter.NewFileSystem())
+	ldr := etl.NewLoader(aol.NewImporter(*xmlPath, *batchSize), aol.NewFilter(), exporter.NewFileSystem(*exportPath))
 	ldr.Load(impCtx, *workers)
 }

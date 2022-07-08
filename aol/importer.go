@@ -31,7 +31,6 @@ func (imp *importer) Import(ctx context.Context) *etl.Imported {
 			}
 
 			close(imported.MusicDataBatch)
-			close(imported.OnError)
 		}()
 
 		for i := 0; i < imp.batchSize*2; i++ {

@@ -93,9 +93,10 @@ func (ldr *loader) filterMusicData(ctx context.Context, imported *Imported) <-ch
 				buf := make([]*Music, 0)
 				buf = append(buf, batch...)
 
-				filterApplied := ldr.filter.Apply(ctx, batch)
-
-				filtered <- <-filterApplied
+				filterApplied, ok := <-ldr.filter.Apply(ctx, batch)
+				if ok {
+					filtered <- filterApplied
+				}
 			case err := <-imported.OnError:
 				logrus.Error(err)
 			case <-ctx.Done():
