@@ -20,6 +20,6 @@ func main() {
 	impCtx, impCancel := context.WithCancel(context.Background())
 	defer impCancel()
 
-	ldr := etl.NewLoader(aoe.NewImporter(*xmlPath, *batchSize), aoe.NewFilter(), aoe.NewExporter(*exportPath))
+	ldr := etl.NewLoader(etl.NewImporter(*xmlPath, *batchSize), aoe.NewFilter(), etl.NewExporter(*exportPath))
 	ldr.Load(impCtx, *workers)
 }

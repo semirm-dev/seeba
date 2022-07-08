@@ -1,5 +1,10 @@
 package aoe
 
+import (
+	"encoding/xml"
+	"io/ioutil"
+)
+
 type search struct {
 	src string
 }
@@ -11,11 +16,15 @@ func NewSearchApi(src string) *search {
 }
 
 func (srch *search) All() (interface{}, error) {
-	music := []*Music{
-		{
-			Name:       "music 1",
-			TrackCount: 1,
-		},
+	data, err := ioutil.ReadFile(srch.src)
+	if err != nil {
+		return nil, err
+	}
+
+	var music []*Music
+
+	if err = xml.Unmarshal(data, &music); err != nil {
+		return nil, err
 	}
 
 	return &MatchingReleases{

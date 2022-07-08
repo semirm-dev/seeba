@@ -1,8 +1,7 @@
-package aoe
+package etl
 
 import (
 	"context"
-	"github.com/semirm-dev/seeba/etl"
 	"github.com/sirupsen/logrus"
 	"io/ioutil"
 	"os"
@@ -20,8 +19,8 @@ func NewImporter(src string, batchSize int) *importer {
 	}
 }
 
-func (imp *importer) Import(ctx context.Context) *etl.Imported {
-	imported := &etl.Imported{
+func (imp *importer) Import(ctx context.Context) *Imported {
+	imported := &Imported{
 		MusicDataBatch: make(chan []byte),
 		OnError:        make(chan error),
 	}
