@@ -5,7 +5,6 @@ import (
 	"flag"
 	"github.com/semirm-dev/seeba/aol"
 	"github.com/semirm-dev/seeba/etl"
-	"github.com/semirm-dev/seeba/exporter"
 )
 
 var (
@@ -21,6 +20,6 @@ func main() {
 	impCtx, impCancel := context.WithCancel(context.Background())
 	defer impCancel()
 
-	ldr := etl.NewLoader(aol.NewImporter(*xmlPath, *batchSize), aol.NewFilter(), exporter.NewFileSystem(*exportPath))
+	ldr := etl.NewLoader(aol.NewImporter(*xmlPath, *batchSize), aol.NewFilter(), aol.NewExporter(*exportPath))
 	ldr.Load(impCtx, *workers)
 }

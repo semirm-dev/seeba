@@ -1,4 +1,4 @@
-package exporter
+package aol
 
 import (
 	"context"
@@ -6,17 +6,17 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-type filesystem struct {
+type exporter struct {
 	dst string
 }
 
-func NewFileSystem(dst string) *filesystem {
-	return &filesystem{
+func NewExporter(dst string) *exporter {
+	return &exporter{
 		dst: dst,
 	}
 }
 
-func (exp *filesystem) Export(ctx context.Context, musicData []*etl.Music) error {
+func (exp *exporter) Export(ctx context.Context, musicData []*etl.Music) error {
 	for _, d := range musicData {
 		logrus.Infof("saved music data to file [%s]: %v", exp.dst, d)
 	}

@@ -2,9 +2,9 @@ package main
 
 import (
 	"flag"
+	"github.com/semirm-dev/seeba/aol"
 	"github.com/semirm-dev/seeba/gateway"
 	"github.com/semirm-dev/seeba/internal/web"
-	"github.com/semirm-dev/seeba/search"
 )
 
 var (
@@ -17,7 +17,7 @@ func main() {
 
 	router := web.NewRouter()
 
-	router.GET("music", gateway.GetMusic(search.NewFileSystem(*exportPath)))
+	router.GET("music", gateway.GetMusic(aol.NewSearchApi(*exportPath)))
 
 	web.ServeHttp(*httpAddr, "gateway", router)
 }

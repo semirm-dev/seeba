@@ -24,14 +24,16 @@ type Filter interface {
 	Apply(context.Context, []*Music) <-chan []*Music
 }
 
-// Exporter will store *etl data in its destination
+// Exporter will store *etl data in its destination.
+// Provider specific.
 type Exporter interface {
 	Export(context.Context, []*Music) error
 }
 
-// Search will get *etl data from its source
+// Search will get *etl data from its source.
+// Provider specific.
 type Search interface {
-	All() ([]*Music, error)
+	All() (interface{}, error)
 }
 
 // Imported presents each imported *etl data record

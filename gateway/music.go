@@ -19,9 +19,7 @@ func GetMusic(search etl.Search) gin.HandlerFunc {
 
 		c.XML(
 			http.StatusOK,
-			&MatchingReleases{
-				Releases: musicDataToDtos(musicData),
-			},
+			musicData,
 		)
 	}
 }
