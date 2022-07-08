@@ -1,4 +1,4 @@
-package aol
+package aoe
 
 type search struct {
 	src string

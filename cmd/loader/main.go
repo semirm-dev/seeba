@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"flag"
-	"github.com/semirm-dev/seeba/aol"
+	"github.com/semirm-dev/seeba/aoe"
 	"github.com/semirm-dev/seeba/etl"
 )
 
@@ -20,6 +20,6 @@ func main() {
 	impCtx, impCancel := context.WithCancel(context.Background())
 	defer impCancel()
 
-	ldr := etl.NewLoader(aol.NewImporter(*xmlPath, *batchSize), aol.NewFilter(), aol.NewExporter(*exportPath))
+	ldr := etl.NewLoader(aoe.NewImporter(*xmlPath, *batchSize), aoe.NewFilter(), aoe.NewExporter(*exportPath))
 	ldr.Load(impCtx, *workers)
 }
