@@ -2,7 +2,6 @@ package aol
 
 import (
 	"context"
-	"github.com/semirm-dev/seeba/etl"
 	"github.com/sirupsen/logrus"
 )
 
@@ -16,9 +15,7 @@ func NewExporter(dst string) *exporter {
 	}
 }
 
-func (exp *exporter) Export(ctx context.Context, musicData []*etl.Music) error {
-	for _, d := range musicData {
-		logrus.Infof("saved music data to file [%s]: %v", exp.dst, d)
-	}
+func (exp *exporter) Export(ctx context.Context, musicData []byte) error {
+	logrus.Infof("saved music data to file [%s]: %s", exp.dst, musicData)
 	return nil
 }

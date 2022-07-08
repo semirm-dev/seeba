@@ -2,7 +2,6 @@ package aol
 
 import (
 	"encoding/xml"
-	"github.com/semirm-dev/seeba/etl"
 )
 
 type MatchingReleases struct {
@@ -16,7 +15,12 @@ type Release struct {
 	TrackCount int      `xml:"trackCount"`
 }
 
-func musicDataToDtos(data []*etl.Music) []*Release {
+type Music struct {
+	Name       string
+	TrackCount int
+}
+
+func musicDataToDtos(data []*Music) []*Release {
 	var releases []*Release
 
 	for _, d := range data {
@@ -26,7 +30,7 @@ func musicDataToDtos(data []*etl.Music) []*Release {
 	return releases
 }
 
-func musicDataToDto(data *etl.Music) *Release {
+func musicDataToDto(data *Music) *Release {
 	return &Release{
 		Name:       data.Name,
 		TrackCount: data.TrackCount,

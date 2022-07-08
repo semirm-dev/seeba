@@ -2,7 +2,6 @@ package aol
 
 import (
 	"context"
-	"github.com/semirm-dev/seeba/etl"
 )
 
 type filter struct {
@@ -12,8 +11,8 @@ func NewFilter() *filter {
 	return &filter{}
 }
 
-func (ftr *filter) Apply(ctx context.Context, musicData []*etl.Music) <-chan []*etl.Music {
-	filtered := make(chan []*etl.Music)
+func (ftr *filter) Apply(ctx context.Context, musicData []byte) <-chan []byte {
+	filtered := make(chan []byte)
 
 	go func() {
 		defer close(filtered)

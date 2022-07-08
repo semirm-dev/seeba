@@ -7,11 +7,6 @@ import (
 	"time"
 )
 
-type Music struct {
-	Name       string
-	TrackCount int
-}
-
 // Importer will import *etl data from its source.
 // Provider specific.
 type Importer interface {
@@ -21,13 +16,13 @@ type Importer interface {
 // Filter will prepare *etl data for writing.
 // Provider specific.
 type Filter interface {
-	Apply(context.Context, []*Music) <-chan []*Music
+	Apply(context.Context, []byte) <-chan []byte
 }
 
 // Exporter will store *etl data in its destination.
 // Provider specific.
 type Exporter interface {
-	Export(context.Context, []*Music) error
+	Export(context.Context, []byte) error
 }
 
 // Search will get *etl data from its source.
@@ -38,7 +33,7 @@ type Search interface {
 
 // Imported presents each imported *etl data record
 type Imported struct {
-	MusicDataBatch chan []*Music
+	MusicDataBatch chan []byte
 	OnError        chan error
 }
 
@@ -78,8 +73,8 @@ func (ldr *loader) Load(ctx context.Context, workers int) {
 }
 
 // filterMusicData will sanitize and filter *etl data.
-func (ldr *loader) filterMusicData(ctx context.Context, imported *Imported) <-chan []*Music {
-	filtered := make(chan []*Music)
+func (ldr *loader) filterMusicData(ctx context.Context, imported *Imported) <-chan []byte {
+	filtered := make(chan []byte)
 
 	go func() {
 		defer close(filtered)
@@ -92,7 +87,7 @@ func (ldr *loader) filterMusicData(ctx context.Context, imported *Imported) <-ch
 				}
 
 				// apply some general business rules, regardless of data provider
-				buf := make([]*Music, 0)
+				buf := make([]byte, 0)
 				buf = append(buf, batch...)
 
 				filterApplied, ok := <-ldr.filter.Apply(ctx, batch)
@@ -112,7 +107,7 @@ func (ldr *loader) filterMusicData(ctx context.Context, imported *Imported) <-ch
 
 // exportMusicData will store *etl data in data store.
 // It must be last in the line, all data should already be checked and validated.
-func (ldr *loader) exportMusicData(ctx context.Context, wg *sync.WaitGroup, musicData <-chan []*Music) {
+func (ldr *loader) exportMusicData(ctx context.Context, wg *sync.WaitGroup, musicData <-chan []byte) {
 	defer wg.Done()
 
 	for {

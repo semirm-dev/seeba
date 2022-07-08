@@ -1,7 +1,5 @@
 package aol
 
-import "github.com/semirm-dev/seeba/etl"
-
 type search struct {
 	src string
 }
@@ -13,7 +11,7 @@ func NewSearchApi(src string) *search {
 }
 
 func (srch *search) All() (interface{}, error) {
-	music := []*etl.Music{
+	music := []*Music{
 		{
 			Name:       "music 1",
 			TrackCount: 1,
