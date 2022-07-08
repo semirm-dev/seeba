@@ -90,7 +90,7 @@ func (ldr *loader) filterMusicData(ctx context.Context, imported *Imported) <-ch
 				buf := make([]byte, 0)
 				buf = append(buf, batch...)
 
-				filterApplied, ok := <-ldr.filter.Apply(ctx, batch)
+				filterApplied, ok := <-ldr.filter.Apply(ctx, buf)
 				if ok {
 					filtered <- filterApplied
 				}
