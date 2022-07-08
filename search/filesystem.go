@@ -13,5 +13,10 @@ func NewFileSystem(src string) *filesystem {
 }
 
 func (srch *filesystem) All() ([]*etl.Music, error) {
-	return nil, nil
+	return []*etl.Music{
+		{
+			Name:       "music 1",
+			TrackCount: 1,
+		},
+	}, nil
 }
