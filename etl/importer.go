@@ -28,18 +28,18 @@ func (imp *importer) Import(ctx context.Context) *Imported {
 	go func() {
 		defer close(imported.MusicDataBatch)
 
-		xmlFile, err := os.Open(imp.src)
+		dataFile, err := os.Open(imp.src)
 		if err != nil {
 			logrus.Fatal(err)
 		}
-		defer xmlFile.Close()
+		defer dataFile.Close()
 
 		for {
 			select {
 			case <-ctx.Done():
 				return
 			default:
-				byteValue, _ := ioutil.ReadAll(xmlFile)
+				byteValue, _ := ioutil.ReadAll(dataFile)
 
 				imported.MusicDataBatch <- byteValue
 

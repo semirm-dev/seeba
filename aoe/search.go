@@ -22,7 +22,6 @@ func (srch *search) All() (interface{}, error) {
 	}
 
 	var music []*Music
-
 	if err = xml.Unmarshal(data, &music); err != nil {
 		return nil, err
 	}
