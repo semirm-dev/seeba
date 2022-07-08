@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  loader:
+    image: semirm/seeba-loader:1
+    build:
+      context: .
+      dockerfile: cmd/loader/Dockerfile
+    container_name: seeba_loader
+    command:
+      - -p=/app-data/worldofmusic.xml
+      - -b=2000
+      - -w=4
+    volumes:
+      - ./cmd/loader/worldofmusic.xml:/app-data/worldofmusic.xml
+    networks:
+      - seeba
+  gateway:
+    image: semirm/seeba-gateway:1
+    build:
+      context: .
+      dockerfile: cmd/gateway/Dockerfile
+    container_name: seeba_gateway
+    ports:
+      - "8000:8000"
+    networks:
+      - seeba
+networks:
+  seeba:
