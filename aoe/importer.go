@@ -27,15 +27,7 @@ func (imp *importer) Import(ctx context.Context) *etl.Imported {
 	}
 
 	go func() {
-		buf := make([]byte, 0)
-
-		defer func() {
-			if len(buf) > 0 {
-				imported.MusicDataBatch <- buf
-			}
-
-			close(imported.MusicDataBatch)
-		}()
+		defer close(imported.MusicDataBatch)
 
 		xmlFile, err := os.Open(imp.src)
 		if err != nil {
@@ -43,9 +35,18 @@ func (imp *importer) Import(ctx context.Context) *etl.Imported {
 		}
 		defer xmlFile.Close()
 
-		byteValue, _ := ioutil.ReadAll(xmlFile)
+		for {
+			select {
+			case <-ctx.Done():
+				return
+			default:
+				byteValue, _ := ioutil.ReadAll(xmlFile)
 
-		imported.MusicDataBatch <- byteValue
+				imported.MusicDataBatch <- byteValue
+
+				return
+			}
+		}
 	}()
 
 	return imported

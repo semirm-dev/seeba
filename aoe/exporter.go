@@ -3,6 +3,8 @@ package aoe
 import (
 	"context"
 	"github.com/sirupsen/logrus"
+	"io/ioutil"
+	"os"
 )
 
 type exporter struct {
@@ -16,6 +18,11 @@ func NewExporter(dst string) *exporter {
 }
 
 func (exp *exporter) Export(ctx context.Context, musicData []byte) error {
-	logrus.Infof("saved music data to file [%s]: %s", exp.dst, musicData)
+	if err := ioutil.WriteFile(exp.dst, musicData, os.ModePerm); err != nil {
+		return err
+	}
+
+	logrus.Infof("saved music data to file: %s", exp.dst)
+
 	return nil
 }
