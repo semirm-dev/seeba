@@ -12,6 +12,21 @@ func NewFilter() *filter {
 	return &filter{}
 }
 
-func (ftr *filter) Apply(ctx context.Context, imported *etl.Imported) <-chan []*etl.Music {
-	return nil
+func (ftr *filter) Apply(ctx context.Context, musicData []*etl.Music) <-chan []*etl.Music {
+	filtered := make(chan []*etl.Music)
+
+	go func() {
+		defer close(filtered)
+
+		for {
+			select {
+			case <-ctx.Done():
+				return
+			default:
+				filtered <- musicData
+			}
+		}
+	}()
+
+	return filtered
 }

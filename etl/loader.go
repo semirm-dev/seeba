@@ -21,7 +21,7 @@ type Importer interface {
 // Filter will prepare *etl data for writing.
 // Provider specific.
 type Filter interface {
-	Apply(context.Context, *Imported) <-chan []*Music
+	Apply(context.Context, []*Music) <-chan []*Music
 }
 
 // Exporter will store *etl data in its destination
@@ -89,10 +89,13 @@ func (ldr *loader) filterMusicData(ctx context.Context, imported *Imported) <-ch
 					return
 				}
 
+				// apply some general business rules, regardless of data provider
 				buf := make([]*Music, 0)
 				buf = append(buf, batch...)
 
-				filtered <- buf
+				filterApplied := ldr.filter.Apply(ctx, batch)
+
+				filtered <- <-filterApplied
 			case err := <-imported.OnError:
 				logrus.Error(err)
 			case <-ctx.Done():
