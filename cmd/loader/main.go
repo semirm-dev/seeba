@@ -17,9 +17,9 @@ var (
 func main() {
 	flag.Parse()
 
-	impCtx, impCancel := context.WithCancel(context.Background())
-	defer impCancel()
+	mainCtx, mainCancel := context.WithCancel(context.Background())
+	defer mainCancel()
 
 	ldr := etl.NewLoader(etl.NewImporter(*importPath, *batchSize), etl.NewExporter(*exportPath), aoe.NewFilter(aoe.NewDefaultValidator()))
-	ldr.Load(impCtx, *workers)
+	ldr.Load(mainCtx, *workers)
 }
