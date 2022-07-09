@@ -8,13 +8,11 @@ import (
 )
 
 // Importer will import *etl data from its source.
-// Provider specific.
 type Importer interface {
 	Import(context.Context) *Imported
 }
 
 // Exporter will store *etl data in its destination.
-// Provider specific.
 type Exporter interface {
 	Export(context.Context, []byte) error
 }
