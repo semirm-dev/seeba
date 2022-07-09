@@ -4,35 +4,30 @@ import (
 	"encoding/xml"
 )
 
+type RawRecords struct {
+	XMLName xml.Name  `xml:"records"`
+	Records []*Record `xml:"record"`
+}
+
+type Record struct {
+	XMLName      xml.Name      `xml:"record"`
+	Name         string        `xml:"name"`
+	ReleaseDate  string        `xml:"releasedate"`
+	TrackListing *TrackListing `xml:"tracklisting"`
+}
+
+type TrackListing struct {
+	XMLName xml.Name `xml:"tracklisting"`
+	Tracks  []string `xml:"track"`
+}
+
 type MatchingReleases struct {
 	XMLName  xml.Name   `xml:"matchingReleases"`
-	Releases []*Release `xml:"releases"`
+	Releases []*Release `xml:"release"`
 }
 
 type Release struct {
 	XMLName    xml.Name `xml:"release"`
 	Name       string   `xml:"name"`
 	TrackCount int      `xml:"trackCount"`
-}
-
-type Music struct {
-	Name       string
-	TrackCount int
-}
-
-func musicDataToDtos(data []*Music) []*Release {
-	var releases []*Release
-
-	for _, d := range data {
-		releases = append(releases, musicDataToDto(d))
-	}
-
-	return releases
-}
-
-func musicDataToDto(data *Music) *Release {
-	return &Release{
-		Name:       data.Name,
-		TrackCount: data.TrackCount,
-	}
 }

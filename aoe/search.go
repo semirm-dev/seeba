@@ -21,12 +21,10 @@ func (srch *search) All() (interface{}, error) {
 		return nil, err
 	}
 
-	var music []*Music
+	var music MatchingReleases
 	if err = xml.Unmarshal(data, &music); err != nil {
 		return nil, err
 	}
 
-	return &MatchingReleases{
-		Releases: musicDataToDtos(music),
-	}, nil
+	return music, nil
 }
