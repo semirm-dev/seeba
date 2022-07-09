@@ -7,19 +7,19 @@ import (
 	"os"
 )
 
-type importer struct {
+type fileImporter struct {
 	src       string
 	batchSize int
 }
 
-func NewImporter(src string, batchSize int) *importer {
-	return &importer{
+func NewFileImporter(src string, batchSize int) *fileImporter {
+	return &fileImporter{
 		src:       src,
 		batchSize: batchSize,
 	}
 }
 
-func (imp *importer) Import(ctx context.Context) *Imported {
+func (imp *fileImporter) Import(ctx context.Context) *Imported {
 	imported := &Imported{
 		MusicDataBatch: make(chan []byte),
 		OnError:        make(chan error),

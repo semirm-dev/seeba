@@ -8,17 +8,17 @@ import (
 	"path/filepath"
 )
 
-type exporter struct {
+type fileExporter struct {
 	dest string
 }
 
-func NewExporter(dst string) *exporter {
-	return &exporter{
+func NewFileExporter(dst string) *fileExporter {
+	return &fileExporter{
 		dest: dst,
 	}
 }
 
-func (exp *exporter) Export(ctx context.Context, musicData []byte) error {
+func (exp *fileExporter) Export(ctx context.Context, musicData []byte) error {
 	dst := filepath.Dir(exp.dest)
 
 	if _, err := os.Stat(dst); os.IsNotExist(err) {

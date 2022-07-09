@@ -20,6 +20,6 @@ func main() {
 	mainCtx, mainCancel := context.WithCancel(context.Background())
 	defer mainCancel()
 
-	ldr := etl.NewLoader(etl.NewImporter(*importPath, *batchSize), etl.NewExporter(*exportPath), aoe.NewFilter(aoe.NewDefaultValidator()))
+	ldr := etl.NewLoader(etl.NewFileImporter(*importPath, *batchSize), etl.NewFileExporter(*exportPath), aoe.NewFilter(aoe.NewDefaultValidator()))
 	ldr.Load(mainCtx, *workers)
 }
