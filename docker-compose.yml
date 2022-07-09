@@ -9,10 +9,7 @@ services:
     container_name: seeba_loader
     command:
       - -i=/app-data/import/worldofmusic.xml
-      - -e=/app-data/filtered/
-      - -f=worldofmusic.xml
-      - -b=2000
-      - -w=4
+      - -e=/app-data/filtered/worldofmusic.xml
     volumes:
       - ./data/import/worldofmusic.xml:/app-data/import/worldofmusic.xml
       - exported-data:/app-data/filtered/
