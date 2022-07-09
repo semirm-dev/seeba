@@ -3,7 +3,7 @@
 docker-compose up
 ```
 
-* Endpoint: GET /music
+* Endpoint: localhost:8000 GET /music
 
 **Tests**
 ```shell
