@@ -15,6 +15,7 @@ services:
       - -w=4
     volumes:
       - ./data/import/worldofmusic.xml:/app-data/import/worldofmusic.xml
+      - exported-data:/app-data/filtered/
     networks:
       - seeba
   gateway:
@@ -23,11 +24,17 @@ services:
       context: .
       dockerfile: cmd/gateway/Dockerfile
     container_name: seeba_gateway
+    command:
+      - -e=/app-data/filtered/worldofmusic.xml
     ports:
       - "8000:8000"
     depends_on:
       - loader
+    volumes:
+      - exported-data:/app-data/filtered/
     networks:
       - seeba
+volumes:
+  exported-data:
 networks:
   seeba:
