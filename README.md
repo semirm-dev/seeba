@@ -16,4 +16,4 @@ go test ./... -v
 
 > In order to add new provider or features with breaking changes:
 > - create new package specific for the new provider and implement _etl.Import_, _etl.Filter_ and _etl.Search_ interfaces (either all 3 or only those with the breaking changes)
-> - pass new provider implementation to _cmd/gateway/main.go_
+> - pass new provider implementation to _cmd/loader/main.go_
