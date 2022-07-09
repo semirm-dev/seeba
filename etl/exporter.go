@@ -5,20 +5,28 @@ import (
 	"github.com/sirupsen/logrus"
 	"io/ioutil"
 	"os"
+	"path"
 )
 
 type exporter struct {
-	dst string
+	dst      string
+	filename string
 }
 
-func NewExporter(dst string) *exporter {
+func NewExporter(dst string, filename string) *exporter {
 	return &exporter{
-		dst: dst,
+		dst:      dst,
+		filename: filename,
 	}
 }
 
 func (exp *exporter) Export(ctx context.Context, musicData []byte) error {
-	if err := ioutil.WriteFile(exp.dst, musicData, os.ModePerm); err != nil {
+	if _, err := os.Stat(exp.dst); os.IsNotExist(err) {
+		if err = os.MkdirAll(exp.dst, os.ModePerm); err != nil {
+			return err
+		}
+	}
+	if err := ioutil.WriteFile(path.Join(exp.dst, exp.filename), musicData, os.ModePerm); err != nil {
 		return err
 	}
 

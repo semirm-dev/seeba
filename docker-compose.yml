@@ -9,7 +9,8 @@ services:
     container_name: seeba_loader
     command:
       - -i=/app-data/import/worldofmusic.xml
-      - -e=/app-data/filtered/worldofmusic.xml
+      - -e=/app-data/filtered/
+      - -f=worldofmusic.xml
       - -b=2000
       - -w=4
     volumes:
@@ -24,6 +25,8 @@ services:
     container_name: seeba_gateway
     ports:
       - "8000:8000"
+    depends_on:
+      - loader
     networks:
       - seeba
 networks:
