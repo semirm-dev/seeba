@@ -8,11 +8,12 @@ services:
       dockerfile: cmd/loader/Dockerfile
     container_name: seeba_loader
     command:
-      - -p=/app-data/worldofmusic.xml
+      - -i=/app-data/import/worldofmusic.xml
+      - -e=/app-data/filtered/worldofmusic.xml
       - -b=2000
       - -w=4
     volumes:
-      - ./cmd/loader/worldofmusic.xml:/app-data/worldofmusic.xml
+      - ./data/import/worldofmusic.xml:/app-data/import/worldofmusic.xml
     networks:
       - seeba
   gateway:
