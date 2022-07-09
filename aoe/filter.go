@@ -7,13 +7,20 @@ import (
 )
 
 type filter struct {
+	validator Validator
 }
 
-func NewFilter() *filter {
-	return &filter{}
+type Validator interface {
+	Valid(*Record) bool
 }
 
-func (ftr *filter) Apply(ctx context.Context, musicData []byte) <-chan []byte {
+func NewFilter(validator Validator) *filter {
+	return &filter{
+		validator: validator,
+	}
+}
+
+func (flt *filter) Apply(ctx context.Context, musicData []byte) <-chan []byte {
 	filtered := make(chan []byte)
 
 	go func() {
@@ -29,7 +36,7 @@ func (ftr *filter) Apply(ctx context.Context, musicData []byte) <-chan []byte {
 				return
 			}
 
-			queryResult, err := applyFilter(rawRecords.Records)
+			queryResult, err := flt.applyFilter(rawRecords.Records)
 			if err != nil {
 				logrus.Error(err)
 				return
@@ -58,11 +65,11 @@ func (ftr *filter) Apply(ctx context.Context, musicData []byte) <-chan []byte {
 	return filtered
 }
 
-func applyFilter(records []*Record) ([]*Record, error) {
+func (flt *filter) applyFilter(records []*Record) ([]*Record, error) {
 	var buf []*Record
 
 	for _, r := range records {
-		if len(r.TrackListing.Tracks) > 10 {
+		if flt.validator.Valid(r) {
 			buf = append(buf, r)
 		}
 	}

@@ -13,16 +13,16 @@ type Importer interface {
 	Import(context.Context) *Imported
 }
 
-// Filter will prepare *etl data for writing.
-// Provider specific.
-type Filter interface {
-	Apply(context.Context, []byte) <-chan []byte
-}
-
 // Exporter will store *etl data in its destination.
 // Provider specific.
 type Exporter interface {
 	Export(context.Context, []byte) error
+}
+
+// Filter will prepare *etl data for writing.
+// Provider specific.
+type Filter interface {
+	Apply(context.Context, []byte) <-chan []byte
 }
 
 // Search will get *etl data from its source.
@@ -39,17 +39,17 @@ type Imported struct {
 
 type loader struct {
 	importer Importer
-	filter   Filter
 	exporter Exporter
+	filter   Filter
 }
 
 // NewLoader will initialize *loader.
 // Loader will load *etl data from Importer, filter it by applying Filter and store it in data store using Exporter
-func NewLoader(importer Importer, filter Filter, exporter Exporter) *loader {
+func NewLoader(importer Importer, exporter Exporter, filter Filter) *loader {
 	return &loader{
 		importer: importer,
-		filter:   filter,
 		exporter: exporter,
+		filter:   filter,
 	}
 }
 
