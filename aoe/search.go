@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 )
 
+// search will search for music data previously exported to a destination
 type search struct {
 	src string
 }

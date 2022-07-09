@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 )
 
+// fileExporter will export data to a file destination
 type fileExporter struct {
 	dest string
 }

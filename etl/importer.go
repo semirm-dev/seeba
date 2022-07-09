@@ -7,6 +7,7 @@ import (
 	"os"
 )
 
+// fileImporter will import data from a source file
 type fileImporter struct {
 	src       string
 	batchSize int

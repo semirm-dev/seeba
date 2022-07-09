@@ -6,6 +6,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+// filter will apply filters and validations specific to AOE provider
 type filter struct {
 	validator Validator
 }
