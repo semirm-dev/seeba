@@ -24,7 +24,7 @@ func TestDefaultValidator_Valid(t *testing.T) {
 			},
 			expected: true,
 		},
-		"given invalid record should return false": {
+		"given record with less than 10 tracks and newer date should return false": {
 			given: &aoe.Record{
 				Name:        "record 1",
 				ReleaseDate: "2010.01.01",
