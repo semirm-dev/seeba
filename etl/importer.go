@@ -39,9 +39,9 @@ func (imp *fileImporter) Import(ctx context.Context) *Imported {
 			case <-ctx.Done():
 				return
 			default:
-				byteValue, _ := ioutil.ReadAll(dataFile)
+				batch, _ := ioutil.ReadAll(dataFile)
 
-				imported.MusicDataBatch <- byteValue
+				imported.MusicDataBatch <- batch
 
 				return
 			}
