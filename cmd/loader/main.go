@@ -3,8 +3,8 @@ package main
 import (
 	"context"
 	"flag"
-	"github.com/semirm-dev/seeba/aoe"
 	"github.com/semirm-dev/seeba/etl"
+	"github.com/semirm-dev/seeba/musicmoz"
 )
 
 var (
@@ -20,6 +20,6 @@ func main() {
 	mainCtx, mainCancel := context.WithCancel(context.Background())
 	defer mainCancel()
 
-	ldr := etl.NewLoader(etl.NewFileImporter(*importPath, *batchSize), etl.NewFileExporter(*exportPath), aoe.NewFilter(aoe.NewDefaultValidator()))
+	ldr := etl.NewLoader(etl.NewFileImporter(*importPath, *batchSize), etl.NewFileExporter(*exportPath), musicmoz.NewFilter(musicmoz.NewDefaultValidator()))
 	ldr.Load(mainCtx, *workers)
 }

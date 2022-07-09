@@ -1,4 +1,4 @@
-package aoe
+package musicmoz
 
 import (
 	"encoding/xml"

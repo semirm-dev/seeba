@@ -1,4 +1,4 @@
-package aoe
+package musicmoz
 
 import (
 	"context"
@@ -6,7 +6,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// filter will apply filters and validations specific to AOE provider
+// filter will apply filters and validations specific to MusicMoz provider
 type filter struct {
 	validator Validator
 }
